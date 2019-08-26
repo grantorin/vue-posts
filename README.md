@@ -1,4 +1,4 @@
-# vue-filmcatalog
+# vue-posts
 
 ## Project setup
 ```

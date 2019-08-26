@@ -86,10 +86,11 @@ export default {
           return item.userId === user.id
         })
         this.$store.dispatch('setUserPosts', myposts)
+        this.isMyPost = false
       } else {
         this.$store.dispatch('clearUserPosts')
+        this.isMyPost = true
       }
-      this.isMyPost = !this.isMyPost
     },
 
     removePost(id) {
@@ -105,6 +106,10 @@ export default {
           console.log(err)
         })
     }
+  },
+
+  mounted() {
+    this.isMyPost = this.$store.getters.userPosts ? false : true
   }
 }
 </script>

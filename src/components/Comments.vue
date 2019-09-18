@@ -54,14 +54,20 @@ export default {
           .then(comment => {
             console.log(comment.data)
             this.comments.unshift(comment.data)
-            Materialize.toast('success', 6000)
+            this.$toasted.show('success', {
+              duration: 5000
+            })
           })
           .catch(err => {
-            Materialize.toast(err.message, 6000)
+            this.$toasted.show(err.message, {
+              duration: 5000
+            })
             console.log(err)
           })
       } else {
-        Materialize.toast('Warning: Required all fields', 6000)
+        this.$toasted.show('Warning: Required all fields', {
+          duration: 5000
+        })
       }
     }
   },
@@ -77,7 +83,9 @@ export default {
           })
         })
         .catch(err => {
-          Materialize.toast(err.message, 6000)
+          this.$toasted.show(err.message, {
+            duration: 5000
+          })
           console.log(err)
         })
   }

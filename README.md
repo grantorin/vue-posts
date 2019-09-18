@@ -1,4 +1,4 @@
-# vue-posts
+# Vue-posts
 
 ## Project setup
 ```

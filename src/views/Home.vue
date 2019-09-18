@@ -29,6 +29,7 @@
 
 <script>
 import { setTimeout } from 'timers';
+
 export default {
   data() {
     return {
@@ -98,11 +99,15 @@ export default {
         .then(resp => {
           if(resp.status === 200) {
             this.$store.dispatch('removePost', id)
-            Materialize.toast('success', 3000)
+            this.$toasted.show('success', {
+              duration: 3000
+            })
           }
         })
         .catch(err => {
-          Materialize.toast(err.message, 6000)
+          this.$toasted.show(err.message, {
+            duration: 5000
+          })
           console.log(err)
         })
     }

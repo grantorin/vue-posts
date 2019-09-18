@@ -56,11 +56,15 @@ export default {
         })
         .then(post => {
           this.$store.dispatch('putPost', post.data)
-          Materialize.toast('success', 1000)
+          this.$toasted.show('success', {
+            duration: 1000
+          })
           this.$router.push('/')
         })
         .catch(err => {
-          Materialize.toast(err.message, 6000)
+          this.$toasted.show(err.message, {
+            duration: 5000
+          })
           console.log(err)
         })
       }
@@ -72,7 +76,9 @@ export default {
           this.owner = user.data.name
         })
         .catch(err => {
-          Materialize.toast(err.message, 6000)
+          this.$toasted.show(err.message, {
+            duration: 5000
+          })
           console.log(err)
         })
   }

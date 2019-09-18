@@ -84,14 +84,16 @@ export default {
           }))
           .then(user => {
             this.$store.dispatch('registerUser', {
-              email: "Julianne.OConner@kory.org",
+              email: 'Julianne.OConner@kory.org',
               id: 4,
-              name: "Patricia Lebsack"
+              name: 'Patricia Lebsack'
             })
             this.$router.push('/')
           })
           .catch(err => {
-            Materialize.toast(err.message, 6000)
+            this.$toasted.show(err.message, {
+              duration: 5000
+            })
             console.log(err)
           })
       }

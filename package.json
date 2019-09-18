@@ -1,5 +1,5 @@
 {
-  "name": "vue-stories",
+  "name": "vue-posts",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.3",
+    "vue-toasted": "^1.1.27",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -21,6 +22,7 @@
     "@vue/cli-service": "^3.10.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
+    "callback-loader": "^0.2.4",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.9.0",

@@ -1,12 +1,17 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router/'
+import router from './router'
 import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import Toasted from 'vue-toasted'
+import M from './plugins'
 
 Vue.config.productionTip = false
+
 Vue.use(VueAxios, axios)
+Vue.use(M)
+Vue.use(Toasted)
 
 new Vue({
   router,
@@ -18,8 +23,10 @@ new Vue({
       })
       .catch(err => {
         console.log(err)
-        // eslint-disable-next-line no-undef
-        Materialize.toast(err.message, 6000)
+        this.$toasted.show(err.message, {
+          position: 'top-right',
+          duration: 5000
+        })
       })
   },
   render: h => h(App)

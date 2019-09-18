@@ -6,7 +6,7 @@
           router-link.brand-logo(to='/')
             img(alt="Vue logo" src="./assets/logo.png")
 
-          a.right.sidenav-trigger.hide-on-large-only(href="#" data-target="mobile-menu" data-activates="mobile-menu")
+          a.right.hide-on-large-only(href="#" data-target="mobile-menu" data-activates="mobile-menu" @click="openSidebar")
             i.material-icons menu
 
           ul.nav-list.right.hide-on-med-and-down
@@ -19,7 +19,7 @@
                 i.material-icons exit_to_app
                 | Logout
 
-      ul#mobile-menu.side-nav
+      ul#mobile-menu.sidenav(ref="sidenav")
         router-link.nav-list__item(v-for="link in linkMenu" :key="link.title" :to="`${link.url}`" tag="li" exact active-class="active")
           a.nav-list__link {{ link.title }}
         li.nav-list__item(v-if="isUserLoggedIn")
@@ -31,6 +31,11 @@
 <script>
 import { setTimeout } from 'timers';
 export default {
+  data() {
+    return {
+      sidebar: null
+    }
+  },
   computed: {
     isUserLoggedIn() {
       return this.$store.getters.isUserLoggedIn
@@ -57,11 +62,15 @@ export default {
       if(this.$router.currentRoute.name !== 'home') {
         this.$router.push('/')
       }
+    },
+    openSidebar() {
+      this.sidebar.open()
     }
   },
 
   mounted() {
-    $(".sidenav-trigger").sideNav();
+    M.Sidenav.init(this.$refs.sidenav)
+    this.sidebar = M.Sidenav.getInstance(this.$refs.sidenav)
   }
 }
 </script>>
@@ -104,13 +113,14 @@ a
         margin-right: 10px
 
 nav
-  .brand-logo
-    padding-left: 15px
-    padding-right: 15px
-    height: 100%
-    display: flex
-    align-items: center
-    &>img
-      max-width: 50px
-      height: auto
+  .nav-wrapper
+    .brand-logo
+      padding-left: 15px
+      padding-right: 15px
+      height: 100%
+      display: flex
+      align-items: center
+      &>img
+        max-width: 50px
+        height: auto
 </style>

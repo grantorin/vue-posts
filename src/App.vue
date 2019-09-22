@@ -2,7 +2,7 @@
   #app
     header.header
       nav
-        .nav-wrapper
+        .nav-wrapper.container
           router-link.brand-logo(to='/')
             img(alt="Vue logo" src="./assets/logo.png")
 

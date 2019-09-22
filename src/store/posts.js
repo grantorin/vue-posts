@@ -9,6 +9,7 @@ export default {
     removePost (state, payload) {
       let removePostIndex = state.posts.findIndex(post => post.id == payload)
       state.posts.splice(removePostIndex, 1)
+
       if (state.userPosts) {
         removePostIndex = state.userPosts.findIndex(post => post.id == payload)
         state.userPosts.splice(removePostIndex, 1)

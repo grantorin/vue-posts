@@ -15,31 +15,40 @@
         a.waves-effect.waves-light.btn(@click="filterMyPosts" v-if="user")
           i.material-icons.right all_inclusive
           | {{ isMyPost | filterTitleIsMyPostBtn }}
+
     .row(v-show="!preload")
       .col.s12.m6.xl4(v-for="post in posts" :key="post.id")
         .card
           .card-content
-            span.card-title {{post.title}}
-            p {{post.body | filterDescription}}
+            span.card-title {{ post.title }}
+            p {{ post.body | filterDescription }}
           .card-action
             router-link(:to="{ name: 'post', params: {id: post.id}, query: {ownerId: post.userId} }") more
             a.btn-floating.right.waves-effect.waves-light.red(title="remove post" @click="removePost(post.id)" v-if="user && post.userId === user.id")
               i.material-icons clear
+
+    .pagination-box(v-if="postsAll && postsAll.length")
+      pagination(:current="1" :perPage="9" :total="postsAll" @setPage="setPage($event)")
 </template>
 
 <script>
 import { setTimeout } from 'timers';
+import Pagination from '@/components/Pagination';
 
 export default {
+  components: {
+    Pagination
+  },
   data() {
     return {
       preload: true,
-      isMyPost: true
+      isMyPost: true,
+      posts: null
     }
   },
 
   computed: {
-    posts() {
+    postsAll() {
       setTimeout(() => {
         this.preload = false
       }, 1000)
@@ -64,6 +73,9 @@ export default {
   },
 
   methods: {
+    setPage(posts) {
+      this.posts = posts
+    },
     sortDown() {
       let sortposts = this.posts.sort((a, b) => {
         return a.id < b.id ? 1 : -1
@@ -123,4 +135,8 @@ export default {
 .btn
   margin-right: 10px
   margin-left: 10px
+
+.pagination-box
+  display: flex
+  justify-content: center
 </style>

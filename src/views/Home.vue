@@ -12,7 +12,7 @@
         a.waves-effect.waves-light.btn(@click="sortUp")
           i.material-icons.right arrow_upward
           | up
-        a.waves-effect.waves-light.btn(@click="filterMyPosts" v-if="user")
+        a.waves-effect.waves-light.btn(@click="filterUserPosts" v-if="user")
           i.material-icons.right all_inclusive
           | {{ isMyPost | filterTitleIsMyPostBtn }}
 
@@ -28,7 +28,7 @@
               i.material-icons clear
 
     .pagination-box(v-if="postsAll && postsAll.length")
-      pagination(:current="1" :perPage="9" :total="postsAll" @setPage="setPage($event)")
+      pagination(:current="1" :perPage="9" :total="userPosts || postsAll" @setPage="setPage($event)")
 </template>
 
 <script>
@@ -36,6 +36,7 @@ import { setTimeout } from 'timers';
 import Pagination from '@/components/Pagination';
 
 export default {
+  name: 'Home',
   components: {
     Pagination
   },
@@ -43,7 +44,8 @@ export default {
     return {
       preload: true,
       isMyPost: true,
-      posts: null
+      posts: null,
+      userPosts: null
     }
   },
 
@@ -53,9 +55,7 @@ export default {
         this.preload = false
       }, 1000)
 
-      return this.$store.getters.userPosts
-        ? this.$store.getters.userPosts
-        : this.$store.getters.posts
+      return this.$store.getters.posts
     },
 
     user() {
@@ -90,18 +90,18 @@ export default {
       this.$store.dispatch('setPosts', sortposts)
     },
 
-    filterMyPosts() {
-      const user = this.$store.getters.user
-      if(!user) return
+    filterUserPosts() {
+      if(!this.$store.getters.isUserLoggedIn) return
 
-      if(!this.$store.getters.userPosts) {
-        let myposts = this.posts.filter(item => {
+      const user = this.$store.getters.user
+      if(!this.userPosts) {
+        let userPosts = this.postsAll.filter(item => {
           return item.userId === user.id
         })
-        this.$store.dispatch('setUserPosts', myposts)
+        this.userPosts = userPosts
         this.isMyPost = false
       } else {
-        this.$store.dispatch('clearUserPosts')
+        this.userPosts = null
         this.isMyPost = true
       }
     },
@@ -111,6 +111,10 @@ export default {
         .then(resp => {
           if(resp.status === 200) {
             this.$store.dispatch('removePost', id)
+
+            let removePostIndex = this.userPosts.findIndex(post => post.id == id)
+            this.userPosts.splice(removePostIndex, 1)
+
             this.$toasted.show('success', {
               duration: 3000
             })
@@ -123,10 +127,6 @@ export default {
           console.log(err)
         })
     }
-  },
-
-  mounted() {
-    this.isMyPost = this.$store.getters.userPosts ? false : true
   }
 }
 </script>

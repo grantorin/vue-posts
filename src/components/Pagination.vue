@@ -35,6 +35,13 @@ export default {
     }
   },
 
+  watch: {
+    total() {
+      this.splitPages()
+      this.emitPage(this.currentPage)
+    }
+  },
+
   methods: {
     nextPage() {
       if (this.currentPage < this.totalPages)
